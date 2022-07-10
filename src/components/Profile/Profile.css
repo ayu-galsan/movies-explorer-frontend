@@ -21,13 +21,12 @@
   display: flex;
   flex-direction: column;
   min-width: 410px;
-  padding: 123px 0 204px;
+  padding: 123px 0 220px;
   margin: 0 auto;
 }
 
 .profile__container-item {
   display: flex;
-  position: relative;
   list-style: none;
   justify-content: space-between;
   padding: 0 0 16px 0;
@@ -40,7 +39,6 @@
   font-weight: 500;
   font-size: 11px;
   line-height: 1.18;
-  white-space: nowrap;
 }
 
 .profile__input {
@@ -57,28 +55,8 @@
   outline: none;
 }
 
-.profile__input_type_error {
-  color: #EE3465;
-  padding: 0;
-  margin: 0;
-  width: 100%;
-}
-
-.profile__error {
-  position: absolute;
-  font-size: 10px;
-  line-height: 1.2;
-  color: #EE3465;
-  top: 80%;
-  left: 0;
-  visibility: hidden;
-}
-
-.profile__error_visible {
-  visibility: visible;
-}
-
 .profile__container-item:last-of-type {
+  padding-bottom: 0;
   padding-top: 17px;
   border-bottom: none;
 }
@@ -123,7 +101,7 @@
 
   .profile__container {
     padding-top: 96px;
-    padding-bottom: 194px;
+    padding-bottom: 210px;
   }
 }
 
@@ -135,7 +113,7 @@
 
   .profile__container {
     padding-top: 80px;
-    padding-bottom: 363px;
+    padding-bottom: 379px;
     min-width: 260px;
   }
 

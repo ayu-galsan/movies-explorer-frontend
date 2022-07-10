@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import "./App.css";
 import Header from "../Header/Header";
@@ -16,6 +16,7 @@ import SavedMovies from "../SavedMovies/SavedMovies";
 function App() {
   const [loggedIn, setLoggedIn] = useState(true);
   const [isBurgerMenuOpen, setIsBurgerMenuOpen] = useState(false);
+  const location = useLocation();
   const navigate = useNavigate();
 
   function openBurgerMenu() {
@@ -31,15 +32,24 @@ function App() {
     navigate("/");
   }
 
+  function handleHeaderRoute() {
+    const addHeaderRoute = ["/", "/profile", "/movies", "/saved-movies"];
+    return addHeaderRoute.map((path, key) =>
+      location.pathname === path ? (
+        <Header islogged={loggedIn} openBurgerMenu={openBurgerMenu} key={key} />
+      ) : null
+    );
+  }
+
   return (
     <div className="app">
+      {handleHeaderRoute()}
       <Routes>
         <Route
           exact
           path="/"
           element={
             <>
-              <Header islogged={loggedIn} openBurgerMenu={openBurgerMenu} />
               <Main />
               <Footer />
             </>
@@ -51,8 +61,7 @@ function App() {
           path="/profile"
           element={
             <>
-              <Header islogged={loggedIn} openBurgerMenu={openBurgerMenu} />
-              <Profile signOut={handleSignOut}/>
+              <Profile signOut={handleSignOut} />
             </>
           }
         />
@@ -60,7 +69,6 @@ function App() {
           path="/movies"
           element={
             <>
-              <Header islogged={loggedIn} openBurgerMenu={openBurgerMenu} />
               <Movies />
               <Footer />
             </>
@@ -70,7 +78,6 @@ function App() {
           path="/saved-movies"
           element={
             <>
-              <Header islogged={loggedIn} openBurgerMenu={openBurgerMenu} />
               <SavedMovies />
               <Footer />
             </>
