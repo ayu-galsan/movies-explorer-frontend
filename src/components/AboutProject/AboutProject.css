@@ -1,0 +1,165 @@
+.project {
+  max-width: 1280px;
+  padding: 110px 70px;
+  display: flex;
+  flex-direction: column;
+}
+
+.project__info {
+  margin: 70px 0px 110px;
+  padding: 0px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.project__info-item {
+  margin-right: 40px;
+  list-style-type: none;
+  max-width: 550px;
+  font-style: normal;
+  color: #000000;
+}
+
+.project__info-item:last-of-type {
+  margin-right: 0;
+  margin-bottom: 0;
+}
+
+.project__info-heading {
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.2;
+  padding: 0px;
+  margin: 0px 0px 26px 0px;
+}
+
+.project__info-text {
+  font-size: 14px;
+  line-height: 1.43;
+  padding: 0px;
+  margin: 0px;
+}
+
+.project__deadline {
+  display: flex;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.project__deadline-item {
+  list-style-type: none;
+  width: 912px;
+  padding: 0;
+}
+
+.project__deadline-item:first-child {
+  width: 228px;
+}
+
+.project__deadline-title {
+  margin: 0;
+  padding: 9px 0;
+  font-size: 14px;
+  font-weight: 1.21;
+}
+
+.project__deadline-title_type_short {
+  color: #FFFFFF;
+  background-color: #3456F3;
+}
+
+.project__deadline-title_type_long {
+  color: #000000;
+  background-color: #F2F2F2;
+}
+
+.project__deadline-text {
+  padding: 14px 0 0;
+  margin: 0;
+  color: #A0A0A0;
+  font-size: 14px;
+  font-weight: 1.21;
+}
+
+@media screen and (max-width: 1024px) {
+  .project {
+    margin-right: 50px;
+    margin-left: 50px;
+  }
+
+  .project__info {
+    margin-bottom: 93px;
+  }
+
+  .project__info-item {
+    margin-right: 30px;
+    max-width: 319px;
+  }
+
+  .project__info-heading {
+    margin-bottom: 22px;
+  }
+
+  .project__info-text {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .project__deadline-item {
+    width: 528px;
+  }
+
+  .project__deadline-item:first-child {
+    width: 140px;
+  }
+}
+
+  @media screen and (max-width: 767px) {
+    .project {
+      margin: 70px 18px;
+    }
+
+    .project__info {
+      flex-direction: column;
+      margin-top: 60px;
+      margin-bottom: 60px;
+    }
+
+    .project__info-item {
+      margin-right: 0;
+      margin-bottom: 56px;
+    }
+
+    .project__info-heading {
+      font-size: 18px;
+      margin-bottom: 16px;
+    }
+
+    .project__info-text {
+      font-size: 11px;
+      line-height: 1.45;
+    }
+
+    .project__deadline-item {
+      width: 184px;
+    }
+  
+    .project__deadline-item:first-child {
+      width: 100px;
+    }
+
+    .project__deadline-title {
+      padding-top: 11px;
+      padding-bottom: 11px;
+      font-size: 11px;
+      font-weight: 1.18;
+    }
+
+    .project__deadline-text {
+      padding-top: 10px;
+      font-size: 11px;
+      font-weight: 1.18;
+    }
+  }
