@@ -53,6 +53,7 @@ function Profile({ signOut }) {
         <button
           className="profile__button profile__button_exit"
           onClick={signOut}
+          type="button"
         >
           Выйти из аккаунта
         </button>

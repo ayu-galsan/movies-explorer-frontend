@@ -1,6 +1,6 @@
 import React from "react";
-import activeCheckbox from "../../images/checkbox-active-icon.png";
-import inaAtiveCheckbox from "../../images/checkbox-inactive-icon.png";
+import activeCheckbox from "../../images/checkbox-active-icon.svg";
+import inaAtiveCheckbox from "../../images/checkbox-inactive-icon.svg";
 import "./FilterCheckbox.css";
 
 function FilterCheckbox() {
@@ -9,10 +9,14 @@ function FilterCheckbox() {
   function handleActiveSwitch() {
     setIsActiveSwitch(!isActiveSwitch);
   }
-  
+
   return (
     <div className="filter-checkbox">
-      <button className="filter-checkbox__button" onClick={handleActiveSwitch}>
+      <button
+        className="filter-checkbox__button"
+        onClick={handleActiveSwitch}
+        type="button"
+      >
         {isActiveSwitch ? (
           <img
             src={activeCheckbox}

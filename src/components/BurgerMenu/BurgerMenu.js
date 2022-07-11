@@ -7,7 +7,7 @@ function BurgerMenu({ isOpen, onClose }) {
   return (
     <div className={`burger ${isOpen && "burger_opened"}`}>
       <div className="burger__container">
-        <button className="burger__close" onClick={onClose} />
+        <button className="burger__close" onClick={onClose} type="button" />
         <nav className="burger__links">
           <NavLink
             to="/"

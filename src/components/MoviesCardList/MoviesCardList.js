@@ -9,7 +9,9 @@ function MoviesCardList() {
           return <MoviesCard key={index} />;
         })}
       </ul>
-      <button className="movies-card-list__more">Ещё</button>
+      <button className="movies-card-list__more" type="button">
+        Ещё
+      </button>
     </div>
   );
 }

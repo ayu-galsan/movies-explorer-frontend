@@ -1,6 +1,6 @@
 import React from "react";
-import saveButton from "../../images/movies-save-button.png";
-import activeSaveButton from "../../images/movies-active-save-button.png";
+import saveButton from "../../images/movies-save-button.svg";
+import activeSaveButton from "../../images/movies-active-save-button.svg";
 import "./MoviesSaveButton.css";
 
 function MoviesSaveButton() {
@@ -9,7 +9,11 @@ function MoviesSaveButton() {
     setIsSave(!isSave);
   }
   return (
-    <button className="movies-save-button" onClick={handleSaveMovies}>
+    <button
+      className="movies-save-button"
+      onClick={handleSaveMovies}
+      type="button"
+    >
       {isSave ? (
         <img
           src={saveButton}

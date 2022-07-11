@@ -25,7 +25,11 @@ function Navigation({ openBurgerMenu }) {
       <ul className="navigation__profile">
         <ProfileLog />
       </ul>
-      <button className="navigation__burger-menu" onClick={openBurgerMenu}>
+      <button
+        className="navigation__burger-menu"
+        onClick={openBurgerMenu}
+        type="button"
+      >
         <img className="navigation__burger-icon" src={burgerIcon} alt="Меню" />
       </button>
     </nav>

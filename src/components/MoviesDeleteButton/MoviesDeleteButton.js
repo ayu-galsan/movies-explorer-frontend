@@ -1,9 +1,9 @@
-import closeButton from "../../images/movies-close-button.png";
+import closeButton from "../../images/movies-close-button.svg";
 import "./MoviesDeleteButton.css";
 
 function MoviesDeleteButton() {
   return (
-    <button className="movies-save-button">
+    <button className="movies-save-button" type="button">
       <img
         src={closeButton}
         alt="Закрыть"
