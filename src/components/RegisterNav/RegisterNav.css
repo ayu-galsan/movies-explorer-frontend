@@ -1,0 +1,49 @@
+.reg-navigation {
+  display: flex;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.33;
+}
+
+.reg-navigation__signUp {
+  text-decoration: none;
+  color: #000000;
+  margin: auto 30px auto 0;
+  opacity: 1;
+  transition: opacity .3s ease;
+}
+
+.reg-navigation__signUp:hover {
+  opacity: 0.6;
+}
+
+.reg-navigation_signIn {
+  text-decoration: none;
+  color: #FFFFFF;
+  padding: 8px 20px;
+  margin: 0;
+  background-color: #3456F3;
+  border-radius: 3px;
+  opacity: 1;
+  transition: opacity .3s ease;
+}
+
+.reg-navigation_signIn:hover {
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 767px) {
+  .reg-navigation {
+    font-size: 10px;
+    line-height: 1.6;
+  }
+
+  .reg-navigation__signUp {
+    margin-right: 14px;
+  }
+
+  .reg-navigation_signIn {
+    padding: 5px 12px;
+  }
+}

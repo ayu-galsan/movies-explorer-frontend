@@ -1,0 +1,79 @@
+.navigation {
+  display: flex;
+  font-style: normal;
+  margin: auto 0px auto 44px;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navigation__movies {
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.navigation__link {
+  text-decoration: none;
+  color: #000000;
+  transition: opacity 0.4s ease-in;
+}
+
+
+.navigation__link:hover {
+  opacity: 0.6;
+}
+
+.navigation__link_type_movies {
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.38;
+}
+
+.navigation__link_type_movies:first-of-type {
+  margin-right: 16px;
+}
+
+.navigation__profile {
+  display: flex;
+  padding: 0;
+  margin: 0;
+}
+
+.navigation__burger-menu {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: opacity 3s ease;
+  padding: 0;
+}
+
+.navigation__burger-menu:hover {
+  opacity: 0.4;
+}
+
+@media screen and (max-width: 1024px) {
+  .navigation {
+    justify-content: flex-end;
+  }
+
+  .navigation__burger-menu {
+    display: flex;
+  }
+
+  .navigation__movies {
+    display: none;
+  }
+
+  .navigation__profile {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .navigation__burger-menu {
+    width: 40px;
+    height: 43px;
+  }
+}

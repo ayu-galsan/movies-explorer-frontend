@@ -1,0 +1,27 @@
+.profile__link {
+  display: flex;
+  text-decoration: none;
+  color: #000000;
+  align-items: center;
+  transition: opacity 0.4s ease-in;
+}
+
+.profile__link:hover {
+  opacity: 0.6;
+}
+
+.profile-log__text {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.14;
+  padding: 0;
+}
+
+.profile-log__image {
+  width: 11.5px;
+  height: 14px;
+  padding: 8px 7.25px;
+  background-color: #F4F4F4;
+  border-radius: 4px;
+  margin-left: 17px;
+}
