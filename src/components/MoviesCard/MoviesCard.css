@@ -46,10 +46,26 @@
   color: #A0A0A0;
 }
 
+.movies-card-save-button {
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
 .movies-card__image {
   width: 100%;
   height: 203px;
   object-fit: cover;
+  cursor: pointer;
+}
+
+.movies-save-button{
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  border: none;
   cursor: pointer;
 }
 
