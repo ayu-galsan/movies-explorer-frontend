@@ -1,10 +1,10 @@
 import { BASE_URL, MOVIES_URL, checkResponse } from "./constants";
 import { getToken } from "./token";
 
-export function getUserData() {
+export function getUserData(token) {
   return fetch(`${BASE_URL}/users/me`, {
     headers: {
-      authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      authorization: `Bearer ${token}`,
     },
   }).then(checkResponse);
 }

@@ -33,20 +33,33 @@ function App() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  //получение данных о пользователе и его сохраненных фильмов при входе
+  //получение данных о сохраненных фильмов пользователя при входе
   React.useEffect(() => {
     if (loggedIn) {
       const token = getToken();
       setRenderLoading(true);
-      Promise.all([mainApi.getUserData(), mainApi.getSavedMovies(token)])
-        .then(([userData, moviesData]) => {
-          setCurrentUser(userData);
+      mainApi
+        .getSavedMovies(token)
+        .then((moviesData) => {
           setSavedMovies(moviesData);
         })
         .catch((err) => console.log(err))
         .finally(() => setRenderLoading(false));
     }
   }, [loggedIn]);
+
+  //получение данных о пользователе
+  const getCurrentUserInfo = () => {
+    const token = getToken();
+    mainApi
+      .getUserData(token)
+      .then((userData) => {
+        if (userData) {
+          setCurrentUser(userData);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
 
   //проверка токена
   const tokenCheck = useCallback(() => {
@@ -55,9 +68,11 @@ function App() {
       mainApi
         .getContent(token)
         .then((res) => {
-          setCurrentUser(res);
-          setLoggedIn(true);
-          navigate(location.pathname);
+          if (res) {
+            setLoggedIn(true);
+            getCurrentUserInfo();
+            navigate(location.pathname);
+          }
         })
         .catch((err) => console.log(err));
     }

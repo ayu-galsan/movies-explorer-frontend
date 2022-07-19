@@ -1,4 +1,4 @@
-export const BASE_URL = "http://localhost:3001";
+export const BASE_URL = "https://api.diplom.stepanyan.nomoreparties.sbs";
 export const MOVIES_URL = "https://api.nomoreparties.co";
 export const NAME_VALUE_ERROR_MESSAGE = "Неверный формат ввода имени";
 export const EMAIL_VALUE_ERROR_MESSAGE = "Неверный формат ввода email";
