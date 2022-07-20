@@ -1,4 +1,4 @@
-###Ссылка на фронтенд 
+Ссылка на фронтенд 
 https://diplom.stepanyan.nomoreparties.sbs/
 
 # Getting Started with Create React App
