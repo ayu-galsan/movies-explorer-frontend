@@ -16,6 +16,7 @@ function Movies({
   onSaveMovie,
   onDeleteMovie,
   savedMovies,
+  isSearchNotSuccessful,
 }) {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isFilter, setIsFilter] = useState(false);
@@ -55,6 +56,7 @@ function Movies({
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         handleCheckbox={onFilterMovies}
+        isSearchNotSuccessful={isSearchNotSuccessful}
       />
       {renderLoading ? <Preloader /> : null}
       {isServerError ? (

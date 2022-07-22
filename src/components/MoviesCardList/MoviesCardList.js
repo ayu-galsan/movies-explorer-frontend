@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import {
   DESKTOP_SIZE,
-  messageNotFindMovies,
   TABLET_SIZE,
 } from "../../utils/constants";
 import MoviesCard from "../MoviesCard/MoviesCard";
@@ -57,23 +56,19 @@ function MoviesCardList({
 
   return (
     <div className="movies-card-list">
-      {movies.length === 0 ? (
-        <div className="movies__err">{messageNotFindMovies}</div>
-      ) : (
-        <ul className="movies-card-list__item">
-          {moviesList.map((movie) => {
-            return (
-              <MoviesCard
-                key={location === "/saved-movies" ? movie._id : movie.id}
-                data={movie}
-                onSaveMovie={onSaveMovie}
-                onDeleteMovie={onDeleteMovie}
-                savedMovies={savedMovies}
-              />
-            );
-          })}
-        </ul>
-      )}
+      <ul className="movies-card-list__item">
+        {moviesList.map((movie) => {
+          return (
+            <MoviesCard
+              key={location === "/saved-movies" ? movie._id : movie.id}
+              data={movie}
+              onSaveMovie={onSaveMovie}
+              onDeleteMovie={onDeleteMovie}
+              savedMovies={savedMovies}
+            />
+          );
+        })}
+      </ul>
       <button
         className={`movies-card-list__more ${
           isButtonActive && "movies-card-list__more_visible"

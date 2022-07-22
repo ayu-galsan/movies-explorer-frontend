@@ -2,13 +2,17 @@ import React, { useState } from "react";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import SearchIcon from "../../images/search-icon.svg";
 import "./SearchForm.css";
-import { messageErrorSearchForm } from "../../utils/constants";
+import {
+  messageErrorSearchForm,
+  messageNotFindMovies,
+} from "../../utils/constants";
 
 function SearchForm({
   onSearchMovies,
   searchQuery,
   setSearchQuery,
   handleCheckbox,
+  isSearchNotSuccessful,
 }) {
   const [notFindMovies, setNotFindMovies] = useState(false);
 
@@ -49,6 +53,9 @@ function SearchForm({
         )}
       </form>
       <FilterCheckbox handleCheckbox={handleCheckbox} />
+      {isSearchNotSuccessful ? (
+        <div className="search-form__movies-err">{messageNotFindMovies}</div>
+      ) : null}
     </div>
   );
 }

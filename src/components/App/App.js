@@ -1,4 +1,10 @@
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import React, { useCallback, useState } from "react";
 import "./App.css";
 import Header from "../Header/Header";
@@ -16,7 +22,7 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import * as mainApi from "../../utils/MainApi";
 import * as MoviesApi from "../../utils/MoviesApi";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
-import { getToken, setToken } from "../../utils/token";
+import { getToken, removeToken, setToken } from "../../utils/token";
 import { handleSearch } from "../../utils/utils";
 
 function App() {
@@ -29,7 +35,9 @@ function App() {
   const [savedMovies, setSavedMovies] = React.useState([]);
   const [renderLoading, setRenderLoading] = useState(false);
   const [isServerError, setIsServerError] = useState(false);
+  const [isSearchNotSuccessful, setIsSearchNotSuccessful] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [allMovies, setAllMovies] = React.useState([]);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -43,23 +51,37 @@ function App() {
         .then((moviesData) => {
           setSavedMovies(moviesData);
         })
-        .catch((err) => console.log(err))
+        .catch((err) => {
+          console.log(err);
+          setIsServerError(true);
+        })
         .finally(() => setRenderLoading(false));
     }
   }, [loggedIn]);
 
-  //получение данных о пользователе
-  const getCurrentUserInfo = () => {
-    const token = getToken();
-    mainApi
-      .getUserData(token)
-      .then((userData) => {
-        if (userData) {
-          setCurrentUser(userData);
-        }
+  //получение всех фильмов с api при входе
+  React.useEffect(() => {
+    MoviesApi.getMovies()
+      .then((data) => {
+        setAllMovies(data);
       })
-      .catch((err) => console.log(err));
-  };
+      .catch((err) => {
+        console.log(err);
+        setIsServerError(true);
+      });
+  }, []);
+
+  //получение данных о пользователе
+  React.useEffect(() => {
+    if (loggedIn) {
+      mainApi
+        .getUserData()
+        .then((userData) => {
+          setCurrentUser(userData);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [loggedIn]);
 
   //проверка токена
   const tokenCheck = useCallback(() => {
@@ -70,7 +92,7 @@ function App() {
         .then((res) => {
           if (res) {
             setLoggedIn(true);
-            getCurrentUserInfo();
+            setCurrentUser(res);
             navigate(location.pathname);
           }
         })
@@ -103,9 +125,11 @@ function App() {
     mainApi
       .authorize(email, password)
       .then((res) => {
-        setToken(res.token);
-        setLoggedIn(true);
-        navigate("/movies");
+        if (res) {
+          setToken(res.token);
+          setLoggedIn(true);
+          navigate("/movies");
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -131,24 +155,30 @@ function App() {
   //функция поиска фильмов по запросу searchQuery
   function handleSearchMovies() {
     setRenderLoading(true);
-    MoviesApi.getMovies(searchQuery)
-      .then((data) => {
-        const foundMovies = handleSearch(data, searchQuery);
-        localStorage.setItem("movies", JSON.stringify(foundMovies));
-        localStorage.setItem("searchQuery", searchQuery);
-        setMovies(foundMovies);
-      })
+    const delay = setTimeout(() => {
+      const foundMovies = handleSearch(allMovies, searchQuery);
+      localStorage.setItem("movies", JSON.stringify(foundMovies));
+      localStorage.setItem("searchQuery", searchQuery);
+      setIsSearchNotSuccessful(false);
+      setMovies(foundMovies);
+      isMoviesFind(foundMovies);
+      setRenderLoading(false);
+      clearTimeout(delay);
+    }, 500);
+  } /* )
       .catch((err) => {
         console.log(err);
         setIsServerError(true);
       })
       .finally(() => setRenderLoading(false), setSearchQuery(searchQuery));
   }
-
+ */
   //эффект сохранения текста запроса при повторном переходе на страницу
   React.useEffect(() => {
     if (location.pathname === "/movies") {
       setSearchQuery(localStorage.getItem("searchQuery"));
+    } else {
+      setSearchQuery(localStorage.getItem(""));
     }
   }, [location.pathname]);
 
@@ -167,17 +197,20 @@ function App() {
   //функция поиска фильмов в сохраненных фильмах по запросу searchQuery
   function handleSearchSavedMovies() {
     setRenderLoading(true);
-    mainApi
-      .getSavedMovies(searchQuery)
-      .then((data) => {
-        const foundMovies = handleSearch(data, searchQuery);
-        setSavedMovies(foundMovies);
-      })
-      .catch((err) => {
-        console.log(err);
-        setIsServerError(true);
-      })
-      .finally(() => setRenderLoading(false), setSearchQuery(searchQuery));
+    const delay = setTimeout(() => {
+      const foundMovies = handleSearch(savedMovies, searchQuery);
+      setSavedMovies(foundMovies);
+      isMoviesFind(foundMovies);
+      setRenderLoading(false);
+      clearTimeout(delay);
+    }, 500);
+  }
+
+  //функция определения наличия найденных фильмов
+  function isMoviesFind(data) {
+    if (data.length === 0) {
+      setIsSearchNotSuccessful(true);
+    }
   }
 
   //функция сохранения фильмов
@@ -215,7 +248,7 @@ function App() {
   }
 
   function handleSignOut() {
-    localStorage.removeItem("jwt");
+    removeToken();
     localStorage.removeItem("movies");
     localStorage.removeItem("searchQuery");
     localStorage.removeItem("checkbox");
@@ -253,21 +286,29 @@ function App() {
           <Route
             path="/signup"
             element={
-              <Register
-                onRegister={handleRegister}
-                messageError={messageInfoText}
-                renderLoading={renderLoading}
-              />
+              loggedIn ? (
+                <Navigate to="/" />
+              ) : (
+                <Register
+                  onRegister={handleRegister}
+                  messageError={messageInfoText}
+                  renderLoading={renderLoading}
+                />
+              )
             }
           />
           <Route
             path="/signin"
             element={
-              <Login
-                onLogin={handleLogin}
-                messageError={messageInfoText}
-                renderLoading={renderLoading}
-              />
+              loggedIn ? (
+                <Navigate to="/" />
+              ) : (
+                <Login
+                  onLogin={handleLogin}
+                  messageError={messageInfoText}
+                  renderLoading={renderLoading}
+                />
+              )
             }
           />
           <Route
@@ -297,6 +338,7 @@ function App() {
                   onSaveMovie={handleSaveMovie}
                   onDeleteMovie={handleDeleteMovie}
                   savedMovies={savedMovies}
+                  isSearchNotSuccessful={isSearchNotSuccessful}
                 />
                 <Footer />
               </PrivateRoute>
@@ -314,6 +356,7 @@ function App() {
                   renderLoading={renderLoading}
                   isServerError={isServerError}
                   onDeleteMovie={handleDeleteMovie}
+                  isSearchNotSuccessful={isSearchNotSuccessful}
                 />
                 <Footer />
               </PrivateRoute>

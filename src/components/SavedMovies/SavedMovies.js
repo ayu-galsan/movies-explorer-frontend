@@ -13,6 +13,7 @@ function SavedMovies({
   renderLoading,
   isServerError,
   onDeleteMovie,
+  isSearchNotSuccessful,
 }) {
   const [isShowSavedMovies, setIsShowSavedMovies] = useState([]);
   const [isFilter, setIsFilter] = useState(false);
@@ -34,6 +35,7 @@ function SavedMovies({
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         handleCheckbox={onFilterMovies}
+        isSearchNotSuccessful={isSearchNotSuccessful}
       />
       {renderLoading ? <Preloader /> : null}
       {isServerError ? (

@@ -1,10 +1,10 @@
 import { BASE_URL, MOVIES_URL, checkResponse } from "./constants";
 import { getToken } from "./token";
 
-export function getUserData(token) {
+export function getUserData() {
   return fetch(`${BASE_URL}/users/me`, {
     headers: {
-      authorization: `Bearer ${token}`,
+      authorization: `Bearer ${getToken()}`,
     },
   }).then(checkResponse);
 }
@@ -37,7 +37,7 @@ export function authorize(email, password) {
     }),
   }).then(checkResponse);
 }
-
+/* 
 export function checkToken(token) {
   return fetch(`${BASE_URL}/users/me`, {
     method: "GET",
@@ -48,7 +48,7 @@ export function checkToken(token) {
     },
   }).then(checkResponse);
 }
-
+ */
 export function getContent(token) {
   return fetch(`${BASE_URL}/users/me`, {
     method: "GET",
