@@ -1,9 +1,13 @@
 import React from "react";
 import "./Profile.css";
 import { useFormWithValidation } from "../../utils/utils";
-import { messageTextUpdateUser } from "../../utils/constants";
-
-function Profile({ signOut, currentUser, onUpdateUser, isEditSuccess }) {
+function Profile({
+  signOut,
+  currentUser,
+  onUpdateUser,
+  isEditSuccess,
+  infoMessage,
+}) {
   const { values, setValues, handleChange, errors, isValid, setIsValid } =
     useFormWithValidation();
 
@@ -53,9 +57,13 @@ function Profile({ signOut, currentUser, onUpdateUser, isEditSuccess }) {
         <span className="profile__error">{errors.email || ""}</span>
       </ul>
       <div className="profile__buttons">
-        {isEditSuccess && (
-          <span className="profile__message">{messageTextUpdateUser}</span>
-        )}
+        <span
+          className={`profile__message ${
+            !isEditSuccess && "profile__message_err"
+          }`}
+        >
+          {infoMessage}
+        </span>
         <button
           className={
             !isValid ||

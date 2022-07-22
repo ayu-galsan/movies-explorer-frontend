@@ -24,6 +24,10 @@ import * as MoviesApi from "../../utils/MoviesApi";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import { getToken, removeToken, setToken } from "../../utils/token";
 import { handleSearch } from "../../utils/utils";
+import {
+  messageErrorTextUser,
+  messageTextUpdateUser,
+} from "../../utils/constants";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -31,6 +35,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [isEditSuccess, setIsEditSuccess] = useState(false);
   const [messageInfoText, setMessageInfoText] = useState(false);
+  const [infoMessage, setInfoMessage] = useState("");
   const [movies, setMovies] = useState([]);
   const [savedMovies, setSavedMovies] = React.useState([]);
   const [renderLoading, setRenderLoading] = useState(false);
@@ -44,10 +49,9 @@ function App() {
   //получение данных о сохраненных фильмов пользователя при входе
   React.useEffect(() => {
     if (loggedIn) {
-      const token = getToken();
       setRenderLoading(true);
       mainApi
-        .getSavedMovies(token)
+        .getSavedMovies()
         .then((moviesData) => {
           setSavedMovies(moviesData);
         })
@@ -125,11 +129,10 @@ function App() {
     mainApi
       .authorize(email, password)
       .then((res) => {
-        if (res) {
-          setToken(res.token);
-          setLoggedIn(true);
-          navigate("/movies");
-        }
+        setToken(res.token);
+        setCurrentUser(res);
+        setLoggedIn(true);
+        navigate("/movies");
       })
       .catch((err) => {
         console.log(err);
@@ -145,10 +148,12 @@ function App() {
       .then((userInfo) => {
         setCurrentUser(userInfo);
         setIsEditSuccess(true);
+        setInfoMessage(messageTextUpdateUser);
       })
       .catch((err) => {
         console.log(err);
-        setMessageInfoText(true);
+        setIsEditSuccess(false);
+        setInfoMessage(messageErrorTextUser);
       });
   }
 
@@ -165,14 +170,8 @@ function App() {
       setRenderLoading(false);
       clearTimeout(delay);
     }, 500);
-  } /* )
-      .catch((err) => {
-        console.log(err);
-        setIsServerError(true);
-      })
-      .finally(() => setRenderLoading(false), setSearchQuery(searchQuery));
   }
- */
+
   //эффект сохранения текста запроса при повторном переходе на страницу
   React.useEffect(() => {
     if (location.pathname === "/movies") {
@@ -320,6 +319,7 @@ function App() {
                   currentUser={currentUser}
                   onUpdateUser={handleUpdateUser}
                   isEditSuccess={isEditSuccess}
+                  infoMessage={infoMessage}
                 />
               </PrivateRoute>
             }

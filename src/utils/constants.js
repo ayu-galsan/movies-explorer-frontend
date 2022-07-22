@@ -8,6 +8,7 @@ export const messageErrorSearchForm = "Нужно ввести ключевое 
 export const messageErrorTextServer =
   "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.";
 export const messageTextUpdateUser = "Данные успешно сохранены";
+export const messageErrorTextUser = "При обновлении профиля произошла ошибка";
 export const messageNotFindMovies = "Ничего не найдено";
 export const DESKTOP_SIZE = 1280;
 export const TABLET_SIZE = 768;

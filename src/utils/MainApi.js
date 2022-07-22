@@ -53,9 +53,9 @@ export function getContent(token) {
   return fetch(`${BASE_URL}/users/me`, {
     method: "GET",
     headers: {
+      Authorization: `Bearer ${token}`,
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
     },
   }).then(checkResponse);
 }
@@ -74,10 +74,10 @@ export function editProfile(data) {
   }).then(checkResponse);
 }
 
-export function getSavedMovies(token) {
+export function getSavedMovies() {
   return fetch(`${BASE_URL}/movies`, {
     headers: {
-      authorization: `Bearer ${token}`,
+      authorization: `Bearer ${getToken()}`,
       "Content-Type": "application/json",
     },
   }).then(checkResponse);
