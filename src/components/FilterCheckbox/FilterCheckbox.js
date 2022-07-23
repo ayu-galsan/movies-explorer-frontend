@@ -1,36 +1,42 @@
-import React from "react";
-import activeCheckbox from "../../images/checkbox-active-icon.svg";
-import inaAtiveCheckbox from "../../images/checkbox-inactive-icon.svg";
+import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import "./FilterCheckbox.css";
 
-function FilterCheckbox() {
-  const [isActiveSwitch, setIsActiveSwitch] = React.useState(true);
+function FilterCheckbox({ handleCheckbox }) {
+  const location = useLocation();
+  const [isChecked, setIsChecked] = useState(false);
 
-  function handleActiveSwitch() {
-    setIsActiveSwitch(!isActiveSwitch);
+  function handleChange(e) {
+    let checkboxState = e.target.checked;
+    setIsChecked(checkboxState);
+    if (location.pathname === "/movies") {
+      localStorage.setItem("checkbox", checkboxState);
+    }
+    handleCheckbox(checkboxState);
   }
+
+  React.useEffect(() => {
+    if (location.pathname === "/movies" && localStorage.getItem("checkbox")) {
+      localStorage.getItem("checkbox") === "false"
+        ? setIsChecked(false)
+        : setIsChecked(true);
+    } else {
+      setIsChecked(false);
+    }
+  }, [location.pathname]);
 
   return (
     <div className="filter-checkbox">
-      <button
-        className="filter-checkbox__button"
-        onClick={handleActiveSwitch}
-        type="button"
-      >
-        {isActiveSwitch ? (
-          <img
-            src={activeCheckbox}
-            className="filter-checkbox__image"
-            alt="Чекбокс включен"
-          />
-        ) : (
-          <img
-            src={inaAtiveCheckbox}
-            className="filter-checkbox__image"
-            alt="Чекбокс выключен"
-          />
-        )}
-      </button>
+      <label className="filter-checkbox__label">
+        <input
+          className="filter-checkbox__input"
+          type="checkbox"
+          name="checkbox"
+          id="checkbox"
+          onChange={handleChange}
+          checked={isChecked}
+        ></input>
+      </label>
       <p className="filter-checkbox__text">Короткометражки</p>
     </div>
   );
