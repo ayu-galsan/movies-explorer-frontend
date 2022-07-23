@@ -14,6 +14,8 @@ function SavedMovies({
   isServerError,
   onDeleteMovie,
   isSearchNotSuccessful,
+  isSearchSaveMovies,
+  allFindSaveMovies,
 }) {
   const [isShowSavedMovies, setIsShowSavedMovies] = useState([]);
   const [isFilter, setIsFilter] = useState(false);
@@ -24,9 +26,18 @@ function SavedMovies({
   function onFilterMovies() {
     setIsFilter(!isFilter);
   }
+
   React.useEffect(() => {
     setIsShowSavedMovies(savedMovies);
   }, [savedMovies]);
+
+  React.useEffect(() => {
+    if (!isSearchSaveMovies) {
+      setIsShowSavedMovies(savedMovies);
+    } else {
+      setIsShowSavedMovies(allFindSaveMovies);
+    }
+  }, [allFindSaveMovies, isSearchSaveMovies, savedMovies]);
 
   return (
     <div className="movies">

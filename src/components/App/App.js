@@ -40,9 +40,14 @@ function App() {
   const [savedMovies, setSavedMovies] = React.useState([]);
   const [renderLoading, setRenderLoading] = useState(false);
   const [isServerError, setIsServerError] = useState(false);
-  const [isSearchNotSuccessful, setIsSearchNotSuccessful] = useState(false);
+  const [isSearchMoviesNotSuccessful, setIsSearchMoviesNotSuccessful] =
+    useState(false);
+  const [isSearchSaveMoviesNotSuccessful, setIsSearchSaveMoviesNotSuccessful] =
+    useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [allMovies, setAllMovies] = React.useState([]);
+  const [isSearchSaveMovies, setIsSearchSaveMovies] = React.useState(false);
+  const [allFindSaveMovies, setAllFindSaveMovies] = React.useState([]);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -164,7 +169,7 @@ function App() {
       const foundMovies = handleSearch(allMovies, searchQuery);
       localStorage.setItem("movies", JSON.stringify(foundMovies));
       localStorage.setItem("searchQuery", searchQuery);
-      setIsSearchNotSuccessful(false);
+      setIsSearchMoviesNotSuccessful(false);
       setMovies(foundMovies);
       isMoviesFind(foundMovies);
       setRenderLoading(false);
@@ -198,7 +203,9 @@ function App() {
     setRenderLoading(true);
     const delay = setTimeout(() => {
       const foundMovies = handleSearch(savedMovies, searchQuery);
-      setSavedMovies(foundMovies);
+      setIsSearchSaveMovies(true);
+      setIsSearchSaveMoviesNotSuccessful(false);
+      setAllFindSaveMovies(foundMovies);
       isMoviesFind(foundMovies);
       setRenderLoading(false);
       clearTimeout(delay);
@@ -208,7 +215,11 @@ function App() {
   //функция определения наличия найденных фильмов
   function isMoviesFind(data) {
     if (data.length === 0) {
-      setIsSearchNotSuccessful(true);
+      if (location.pathname === "/movies") {
+        setIsSearchMoviesNotSuccessful(true);
+      } else {
+        setIsSearchSaveMoviesNotSuccessful(true);
+      }
     }
   }
 
@@ -338,7 +349,7 @@ function App() {
                   onSaveMovie={handleSaveMovie}
                   onDeleteMovie={handleDeleteMovie}
                   savedMovies={savedMovies}
-                  isSearchNotSuccessful={isSearchNotSuccessful}
+                  isSearchNotSuccessful={isSearchMoviesNotSuccessful}
                 />
                 <Footer />
               </PrivateRoute>
@@ -356,7 +367,9 @@ function App() {
                   renderLoading={renderLoading}
                   isServerError={isServerError}
                   onDeleteMovie={handleDeleteMovie}
-                  isSearchNotSuccessful={isSearchNotSuccessful}
+                  isSearchNotSuccessful={isSearchSaveMoviesNotSuccessful}
+                  isSearchSaveMovies={isSearchSaveMovies}
+                  allFindSaveMovies={allFindSaveMovies}
                 />
                 <Footer />
               </PrivateRoute>
