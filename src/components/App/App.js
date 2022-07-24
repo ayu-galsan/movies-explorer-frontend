@@ -46,7 +46,6 @@ function App() {
     useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [allMovies, setAllMovies] = React.useState([]);
-  const [isSearchSaveMovies, setIsSearchSaveMovies] = React.useState(false);
   const [allFindSaveMovies, setAllFindSaveMovies] = React.useState([]);
   const location = useLocation();
   const navigate = useNavigate();
@@ -203,7 +202,6 @@ function App() {
     setRenderLoading(true);
     const delay = setTimeout(() => {
       const foundMovies = handleSearch(savedMovies, searchQuery);
-      setIsSearchSaveMovies(true);
       setIsSearchSaveMoviesNotSuccessful(false);
       setAllFindSaveMovies(foundMovies);
       isMoviesFind(foundMovies);
@@ -229,6 +227,7 @@ function App() {
       .saveMovie(data)
       .then((movie) => {
         setSavedMovies([movie, ...savedMovies]);
+        setAllFindSaveMovies([movie, ...savedMovies]);
       })
       .catch((err) => {
         console.log(err);
@@ -241,6 +240,9 @@ function App() {
       .deleteMovie(data._id)
       .then(() => {
         setSavedMovies((savedMovies) =>
+          savedMovies.filter((movie) => movie._id !== data._id)
+        );
+        setAllFindSaveMovies((savedMovies) =>
           savedMovies.filter((movie) => movie._id !== data._id)
         );
       })
@@ -361,14 +363,13 @@ function App() {
               <PrivateRoute loggedIn={loggedIn}>
                 <SavedMovies
                   savedMovies={savedMovies}
-                  onSearchMovies={handleSearchSavedMovies}
+                  handleSearch={handleSearchSavedMovies}
                   searchQuery={searchQuery}
                   setSearchQuery={setSearchQuery}
                   renderLoading={renderLoading}
                   isServerError={isServerError}
                   onDeleteMovie={handleDeleteMovie}
                   isSearchNotSuccessful={isSearchSaveMoviesNotSuccessful}
-                  isSearchSaveMovies={isSearchSaveMovies}
                   allFindSaveMovies={allFindSaveMovies}
                 />
                 <Footer />

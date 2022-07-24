@@ -7,18 +7,18 @@ import "./SavedMovies.css";
 
 function SavedMovies({
   savedMovies,
-  onSearchMovies,
+  handleSearch,
   searchQuery,
   setSearchQuery,
   renderLoading,
   isServerError,
   onDeleteMovie,
   isSearchNotSuccessful,
-  isSearchSaveMovies,
   allFindSaveMovies,
 }) {
   const [isShowSavedMovies, setIsShowSavedMovies] = useState([]);
   const [isFilter, setIsFilter] = useState(false);
+  const [isSearchSaveMovies, setIsSearchSaveMovies] = useState(false);
 
   const filterShortMovies = (moviesList) =>
     moviesList.filter((movie) => movie.duration < SHORT_MOVIES);
@@ -38,6 +38,11 @@ function SavedMovies({
       setIsShowSavedMovies(allFindSaveMovies);
     }
   }, [allFindSaveMovies, isSearchSaveMovies, savedMovies]);
+
+  const onSearchMovies = (searchQuery) => {
+    handleSearch(searchQuery);
+    setIsSearchSaveMovies(true);
+  };
 
   return (
     <div className="movies">
