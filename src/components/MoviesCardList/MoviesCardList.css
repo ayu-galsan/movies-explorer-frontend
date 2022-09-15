@@ -16,6 +16,7 @@
 }
 
 .movies-card-list__more {
+  display: none;
   padding: 11px 0 9px;
   margin: 50px auto 80px;
   width: 100%;
@@ -33,6 +34,10 @@
 
 .movies-card-list__more:hover {
   opacity: 0.7;
+}
+
+.movies-card-list__more_visible {
+  display: block;
 }
 
 @media screen and (max-width: 1024px) {
@@ -62,5 +67,10 @@
   .movies-card-list__item {
     grid-template-columns: 1fr;
     row-gap: 16px;
+  }
+
+  .movies__err {
+    font-size: 14px;
+    margin-top: -40px;
   }
 }

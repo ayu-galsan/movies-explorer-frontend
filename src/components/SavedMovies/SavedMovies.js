@@ -1,22 +1,69 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import { messageErrorTextServer, SHORT_MOVIES } from "../../utils/constants";
+import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Preloader from "../Preloader/Preloader";
-import SavedMoviesCardList from "../SavedMoviesCardList/SavedMoviesCardList";
 import SearchForm from "../SearchForm/SearchForm";
 import "./SavedMovies.css";
 
-function SavedMovies() {
-  const [renderLoading, setRenderLoading] = useState(false);
+function SavedMovies({
+  savedMovies,
+  handleSearch,
+  searchQuery,
+  setSearchQuery,
+  renderLoading,
+  isServerError,
+  onDeleteMovie,
+  isSearchNotSuccessful,
+  allFindSaveMovies,
+}) {
+  const [isShowSavedMovies, setIsShowSavedMovies] = useState([]);
+  const [isFilter, setIsFilter] = useState(false);
+  const [isSearchSaveMovies, setIsSearchSaveMovies] = useState(false);
 
-  function handleRenderLoading() {
-    setRenderLoading(true);
+  const filterShortMovies = (moviesList) =>
+    moviesList.filter((movie) => movie.duration < SHORT_MOVIES);
+
+  function onFilterMovies() {
+    setIsFilter(!isFilter);
   }
+
+  React.useEffect(() => {
+    setIsShowSavedMovies(savedMovies);
+  }, [savedMovies]);
+
+  React.useEffect(() => {
+    if (!isSearchSaveMovies) {
+      setIsShowSavedMovies(savedMovies);
+    } else {
+      setIsShowSavedMovies(allFindSaveMovies);
+    }
+  }, [allFindSaveMovies, isSearchSaveMovies, savedMovies]);
+
+  const onSearchMovies = (searchQuery) => {
+    handleSearch(searchQuery);
+    setIsSearchSaveMovies(true);
+  };
 
   return (
     <div className="movies">
-      <SearchForm />
+      <SearchForm
+        onSearchMovies={onSearchMovies}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        handleCheckbox={onFilterMovies}
+        isSearchNotSuccessful={isSearchNotSuccessful}
+      />
       {renderLoading ? <Preloader /> : null}
-      <SavedMoviesCardList />
+      {isServerError ? (
+        <div className="movies__err">{messageErrorTextServer}</div>
+      ) : (
+        <MoviesCardList
+          movies={
+            isFilter ? filterShortMovies(isShowSavedMovies) : isShowSavedMovies
+          }
+          onDeleteMovie={onDeleteMovie}
+        />
+      )}
     </div>
   );
 }
